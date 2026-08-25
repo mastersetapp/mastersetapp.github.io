@@ -1,1 +1,15 @@
-
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["852Z5D5939.JSCoding.MasterSet"],
+        "components": [
+          {
+            "/": "/masterset/card*",
+            "comment": "Card links open in the app when it's installed. The trailing wildcard matters: an exact path match can fail once a query string is present."
+          }
+        ]
+      }
+    ]
+  }
+}
