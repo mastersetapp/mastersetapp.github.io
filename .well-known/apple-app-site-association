@@ -2,7 +2,7 @@
   "applinks": {
     "details": [
       {
-        "appIDs": ["852Z5D5939.JSCoding.MasterSet"],
+        "appIDs": ["TEAMID.com.JCoding.MasterSet"],
         "components": [
           {
             "/": "/masterset/card*",
