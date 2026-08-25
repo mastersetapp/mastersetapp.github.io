@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MasterSet — Support</title>
+<meta name="description" content="Help and contact for MasterSet, a master set tracker for the Pokémon Trading Card Game.">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; padding: 56px 24px 90px; max-width: 44rem;
+    background: #0E1220; color: #EDEAE3;
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .eyebrow {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: #E0B252; margin-bottom: .7rem;
+  }
+  h1 { font-size: 2.1rem; margin: 0 0 .5rem; letter-spacing: -.01em; }
+  .lede { color: #8790A8; font-size: 1.05rem; margin: 0 0 3rem; }
+  h2 { font-size: 1.05rem; margin: 2.6rem 0 .5rem; color: #E0B252; }
+  h3 { font-size: .98rem; margin: 1.6rem 0 .35rem; color: #EDEAE3; }
+  p, li { color: #C9C6BF; }
+  ul { padding-left: 1.15rem; }
+  li { margin-bottom: .35rem; }
+  a { color: #E0B252; }
+  .card {
+    background: #171D31; border: 1px solid #262E48; border-radius: 14px;
+    padding: 20px 22px; margin: 1.4rem 0;
+  }
+  .card p:first-child { margin-top: 0; }
+  .card p:last-child { margin-bottom: 0; }
+  .mail {
+    display: inline-block; margin-top: .5rem; padding: 12px 20px;
+    background: #E0B252; color: #0E1220; border-radius: 10px;
+    text-decoration: none; font-weight: 600;
+  }
+  footer {
+    margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid #262E48;
+    color: #8790A8; font-size: .8rem;
+  }
+  footer a { color: #8790A8; }
+</style>
+</head>
+<body>
 
+<div class="eyebrow">MasterSet</div>
+<h1>Support</h1>
+<p class="lede">A master set tracker for the Pokémon Trading Card Game.</p>
+
+<div class="card">
+  <p><strong>Something wrong, or an idea?</strong></p>
+  <p>Email is the fastest way to reach me. If you're reporting a problem, the
+  Report a Problem button in the app's Settings pre-fills your app version and
+  device model, which makes it much easier to work out what happened.</p>
+  <a class="mail" href="mailto:mastersetcollectorsupport@gmail.com?subject=MasterSet">Email support</a>
+</div>
+
+<h2>Common questions</h2>
+
+<h3>The grid is empty and everything says 0%</h3>
+<p>Open Settings and tap <strong>Discover all Pokémon</strong>. This downloads
+the card catalogue and takes about ten seconds on Wi-Fi. Until then the app
+doesn't know which cards exist, so every Pokémon shows a dash rather than a
+misleading zero.</p>
+
+<h3>What counts as a "printing"?</h3>
+<p>A card can exist in several finishes — normal, reverse holo, 1st edition,
+and various stamped promo versions. Master set collectors treat each as a
+separate card to find, so MasterSet counts them separately. That's why a
+Pokémon can have 125 cards but 149 printings.</p>
+
+<h3>A card is missing, or has the wrong artist or image</h3>
+<p>Card data comes from <a href="https://tcgdex.dev">TCGdex</a>, an open-source
+community database. If something is wrong there it will be wrong in the app
+too. You can report data issues directly to them via
+<a href="https://github.com/tcgdex/cards-database/issues">their GitHub</a>, or
+email me and I'll pass it on.</p>
+
+<h3>A printing I own isn't listed</h3>
+<p>Stamped promos, error cards and regional oddities often aren't in any public
+database. Open the card and tap <strong>Add a printing</strong> to create it
+yourself — there are presets for the common stamps. It'll count toward your
+completion like any other.</p>
+
+<h3>The price looks wrong on a stamped or graded card</h3>
+<p>Market prices are quoted for the plain card, so a Worlds-stamped or slabbed
+copy shows the base card's value. Open the card, tap the sliders next to the
+printing you own, and set <strong>Your value</strong>. That overrides the market
+price in your collection total.</p>
+
+<h3>My collection didn't appear on my other device</h3>
+<p>Both devices need to be signed in to the same iCloud account with iCloud
+enabled for MasterSet. First sync can take a minute. Nothing is ever uploaded to
+a server I control — your collection lives in your own private iCloud database.</p>
+
+<h3>How do I get my data out?</h3>
+<p>Settings → <strong>Export collection as CSV</strong>. It's plain text and
+opens in any spreadsheet. You can import it back with the button below it, and
+importing the same file twice is harmless.</p>
+
+<h3>Will resetting delete my collection?</h3>
+<p>Yes. Resetting a Pokémon, or resetting everything, permanently deletes what
+you've marked as owned — on all your devices. Export a CSV first if there's any
+chance you'll want it back.</p>
+
+<h2>Privacy</h2>
+<p>MasterSet collects nothing. No accounts, no analytics, no advertising. See
+the <a href="privacy.html">privacy policy</a> for the detail.</p>
+
+<footer>
+Pokémon and the Pokémon Trading Card Game are trademarks of Nintendo,
+Creatures Inc. and GAME FREAK Inc. MasterSet is an unaffiliated fan-made
+application and is not endorsed by, sponsored by, or associated with them.
+<br><br>
+<a href="privacy.html">Privacy policy</a>
+</footer>
+
+</body>
+</html>
