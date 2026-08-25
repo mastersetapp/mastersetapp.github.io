@@ -1,1 +1,164 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MasterSet — Card</title>
+<meta name="description" content="A Pokémon TCG card, shared from MasterSet.">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 22px 70px;
+    background: #0E1220; color: #EDEAE3;
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+  }
+  .wrap { width: 100%; max-width: 26rem; text-align: center; }
+  .eyebrow {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+    color: #E0B252; margin-bottom: 1.6rem;
+  }
+  .art {
+    width: 100%; max-width: 20rem; border-radius: 14px; margin: 0 auto 1.6rem;
+    display: block; box-shadow: 0 18px 50px rgba(0,0,0,.5);
+    background: #171D31; aspect-ratio: 0.716;
+  }
+  h1 { font-size: 1.6rem; margin: 0 0 .3rem; letter-spacing: -.01em; }
+  .meta {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: #8790A8; font-size: .85rem; margin-bottom: 1.4rem;
+  }
+  .facts {
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 2.2rem;
+  }
+  .fact {
+    background: #171D31; border: 1px solid #262E48; border-radius: 10px;
+    padding: 9px 14px; font-size: .82rem; color: #C9C6BF;
+  }
+  .fact b { color: #E0B252; font-weight: 600; }
+  .cta {
+    display: block; padding: 15px 24px; background: #E0B252; color: #0E1220;
+    border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem;
+  }
+  .sub { color: #8790A8; font-size: .82rem; margin-top: 1rem; }
+  .sub a { color: #8790A8; }
+  .err { color: #8790A8; font-size: .9rem; }
+  footer {
+    margin-top: auto; padding-top: 3rem; color: #3a4364; font-size: .72rem;
+    max-width: 26rem; text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">MasterSet</div>
+
+  <img id="art" class="art" alt="">
+  <h1 id="name">Loading…</h1>
+  <div class="meta" id="meta"></div>
+  <div class="facts" id="facts"></div>
+
+  <!-- Replace with the real App Store URL once the app is live. -->
+  <a class="cta" id="cta" href="https://apps.apple.com/app/id000000000">Get MasterSet</a>
+  <p class="sub">
+    Track every printing of every card.<br>
+    <a href="index.html">Support</a> · <a href="privacy.html">Privacy</a>
+  </p>
+</div>
+
+<footer>
+Pokémon and the Pokémon Trading Card Game are trademarks of Nintendo,
+Creatures Inc. and GAME FREAK Inc. MasterSet is unaffiliated and not endorsed
+by them. Card data from TCGdex.
+</footer>
+
+<script>
+// This page is only ever reached by someone *without* the app — iOS hands the
+// link straight to MasterSet when it's installed, and never loads this. So
+// there's no scheme-guessing or redirect trickery here: it just shows the card
+// and offers the app.
+(async function () {
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+  const lang = params.get('lang') || 'en';
+
+  const nameEl = document.getElementById('name');
+  const metaEl = document.getElementById('meta');
+  const artEl = document.getElementById('art');
+  const factsEl = document.getElementById('facts');
+
+  if (!id) {
+    nameEl.textContent = 'MasterSet';
+    metaEl.innerHTML = '<span class="err">No card in this link.</span>';
+    artEl.remove();
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api.tcgdex.net/v2/${encodeURIComponent(lang)}/cards/${encodeURIComponent(id)}`);
+    if (!res.ok) throw new Error(res.status);
+    const card = await res.json();
+
+    document.title = `${card.name} — MasterSet`;
+    nameEl.textContent = card.name;
+
+    const total = card.set?.cardCount?.total;
+    metaEl.textContent = [
+      card.set?.name,
+      card.localId ? `#${card.localId}${total ? '/' + total : ''}` : null
+    ].filter(Boolean).join(' · ');
+
+    if (card.image) {
+      artEl.src = `${card.image}/high.webp`;
+      artEl.alt = card.name;
+    } else {
+      // TCGdex has no scan for plenty of promos and gallery cards. The app
+      // fills those from pokemontcg.io, so this page does the same rather
+      // than showing a shared card with no picture.
+      artEl.alt = card.name;
+      const number = (card.localId || '').replace(/^0+/, '');
+      const query = number
+        ? `name:"${card.name}" number:${number}`
+        : `name:"${card.name}"`;
+      try {
+        const alt = await fetch(
+          `https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent(query)}&pageSize=1&select=images`
+        );
+        const found = (await alt.json()).data?.[0]?.images;
+        if (found?.large || found?.small) {
+          artEl.src = found.large || found.small;
+        } else {
+          artEl.remove();
+        }
+      } catch (e) {
+        artEl.remove();
+      }
+    }
+
+    const facts = [];
+    if (card.rarity) facts.push(['Rarity', card.rarity]);
+    if (card.illustrator) facts.push(['Artist', card.illustrator]);
+
+    // Printings are the whole point of the app, so lead with the count.
+    const variants = card.variants || {};
+    const printings = Object.keys(variants).filter(k => variants[k]).length;
+    if (printings > 1) facts.push(['Printings', String(printings)]);
+
+    factsEl.innerHTML = facts
+      .map(([k, v]) => `<div class="fact">${k} <b>${v}</b></div>`)
+      .join('');
+  } catch (e) {
+    nameEl.textContent = 'Card unavailable';
+    metaEl.innerHTML = '<span class="err">Couldn\'t load this card right now.</span>';
+    artEl.remove();
+  }
+})();
+</script>
+
+</body>
+</html>
